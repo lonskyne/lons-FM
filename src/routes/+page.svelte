@@ -3,22 +3,10 @@
 </nav>
 
 <script>
+	import data;
+
 	var filename = 0
-	import fs from 'fs'
-
-	function assign(data)
-	{
-		filename = data;
-	}
-
-	fs.readdir('/home', function(err, data) {
-		assign(data)
-	});
-	
-	console.log(filename)	
-
 	let lastmod = "1/1/1900"
-
 </script>
 
 <body>
