@@ -1,13 +1,11 @@
-var files
 import fs from 'fs'
 import promisify from 'util'
 
 
 export async function load()
 {
-	var data = await fs.promises.readdir('.')
-	return { data }
+	var fileNames = await fs.promises.readdir('.')
+	var fileData = await fs.promises.readFile("./demo.txt")
+	console.log(fileData)
+	return { fileNames }
 }
-
-export var files
-

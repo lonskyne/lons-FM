@@ -8,11 +8,12 @@
 	let i = 0;
 	let inputDisabled = true;
 
-	$: filename = data.data[i]
-	let lastmod = "1/1/1900"
+	$: filename = data.fileNames[i];
+	let fileContent = data.fileData;
+	let lastmod = "1/1/1900";
 
 	function nextFile() {
-		if(i < data.data.length-1)
+		if(i < data.fileNames.length-1)
 		{
 			i++;
 		}
@@ -42,6 +43,7 @@
 
 	<form>
 		<p><b>File name:</b> {filename}</p>
+		<p><b>File content</b> {fileContent}</p>
 		<p><b>Last modified:</b> {lastmod}</p>
 		<button on:click="{nextFile}">Next</button>
 	</form>
