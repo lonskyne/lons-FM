@@ -6,20 +6,43 @@
 	export let data
 
 	let i = 0;
+	let inputDisabled = true;
 
 	$: filename = data.data[i]
 	let lastmod = "1/1/1900"
 
-	function _next() {
+	function nextFile() {
 		if(i < data.data.length-1)
 		{
 			i++;
 		}
 	}
+
+	function enableInput()
+	{
+		inputDisabled = false;
+	}
+
+	function confirmFolder()
+	{
+		inputDisabled = true;
+	}
 </script>
 
 <body>
-	<p><b>File name:</b> {filename}</p>
-	<p><b>Last modified:</b> {lastmod}</p>
-	<button on:click="{_next}">Next</button>
+	<form>
+		<b>Lookup folder:</b>
+		<input disabled={inputDisabled} type="text" value='.'><br>
+
+		<button on:click="{enableInput}">Edit</button>
+		<button on:click="{confirmFolder}">Confirm</button>
+	</form>
+	
+	<hr>
+
+	<form>
+		<p><b>File name:</b> {filename}</p>
+		<p><b>Last modified:</b> {lastmod}</p>
+		<button on:click="{nextFile}">Next</button>
+	</form>
 </body>
