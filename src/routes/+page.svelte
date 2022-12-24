@@ -3,14 +3,23 @@
 </nav>
 
 <script>
-	import data;
+	export let data
 
-	var filename = 0
+	let i = 0;
+
+	$: filename = data.data[i]
 	let lastmod = "1/1/1900"
+
+	function _next() {
+		if(i < data.data.length-1)
+		{
+			i++;
+		}
+	}
 </script>
 
 <body>
 	<p><b>File name:</b> {filename}</p>
 	<p><b>Last modified:</b> {lastmod}</p>
-	<button>Next</button>
+	<button on:click="{_next}">Next</button>
 </body>
