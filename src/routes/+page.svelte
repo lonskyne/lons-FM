@@ -9,22 +9,24 @@
 	let i = 0;
 	let inputDisabled = true;
 	
+	//Overall folder variables
+	let lookupFolder;
 	let fileNames;
-
-	let curFileName;
+	
+	//Current file variables
+	let curFileName;	
 	let fileContent = data.fileData;
 	let lastmod = "1/1/1900";
-	
+
+	//Update files if the folder path is confirmed
 	if(form!=null)
 	{
 		fileNames = form.fileNames;
+		lookupFolder = form.lookupFolder;
 		curFileName = fileNames[0];
+		inputDisabled = true;
 	}
-	else
-	{
-		console.log("Choose the lookup folder!");
-	}
-
+	
 	function nextFile() {
 		if(i < fileNames.length-1)
 		{
@@ -38,19 +40,14 @@
 	{
 		inputDisabled = false;
 	}
-
-	function confirmFolder()
-	{
-		inputDisabled = true;
-	}
 </script>
 
 <body>
 	<form method="POST" action="?/confirmFolder">
 		<b>Lookup folder:</b>
-		<input disabled={inputDisabled} type="text" value='.'><br>
+		<input disabled={inputDisabled} type="text" name="lookupFolder" value={lookupFolder}/><br>
 
-		<button on:click="{confirmFolder}">Confirm</button>
+		<button>Confirm</button>
 	</form>
 		<button on:click="{enableInput}">Edit</button>
 	
