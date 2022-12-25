@@ -5,6 +5,8 @@
 <script>
 	export let data;
 	export let form;
+	
+	let folderErrorMessage = "";
 
 	let i = 0;
 	let inputDisabled = true;
@@ -21,10 +23,18 @@
 	//Update files if the folder path is confirmed
 	if(form!=null)
 	{
-		fileNames = form.fileNames;
-		lookupFolder = form.lookupFolder;
-		curFileName = fileNames[0];
-		inputDisabled = true;
+		if(!form.err)
+		{
+			fileNames = form.fileNames;
+			lookupFolder = form.lookupFolder;
+			curFileName = fileNames[0];
+			inputDisabled = true;
+			folderErrorMessage = "";
+		}
+		else
+		{
+			folderErrorMessage = "The folder you selected does not exist!"
+		}
 	}
 	
 	function nextFile() {
@@ -43,6 +53,7 @@
 </script>
 
 <body>
+	<span id="folderError" style="color:red">{folderErrorMessage}</span>
 	<form method="POST" action="?/confirmFolder">
 		<b>Lookup folder:</b>
 		<input disabled={inputDisabled} type="text" name="lookupFolder" value={lookupFolder}/><br>

@@ -5,8 +5,18 @@ export const actions = {
 	confirmFolder: async ({ request } ) => {
 		const requestData= await request.formData();
 		const lookupFolder = requestData.get("lookupFolder");
-		var fileNames = await fs.promises.readdir(lookupFolder);
-		return { lookupFolder, fileNames};
+		var fileNames;
+		var err = false;
+		try
+		{
+			fileNames = await fs.promises.readdir(lookupFolder);
+		}
+		catch(error)
+		{
+			fileNames = await fs.promises.readdir(".");
+			err = true;
+		}
+		return { lookupFolder, fileNames, err};
 	}
 }
 
