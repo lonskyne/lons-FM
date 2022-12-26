@@ -14,11 +14,13 @@
 	//Overall folder variables
 	let lookupFolder;
 	let fileNames;
+	let fileExts;
+	let fileContents;
 	
 	//Current file variables
 	let curFileName;	
-	let fileContent = data.fileData;
-	let lastmod = "1/1/1900";
+	let curFileContent;
+	let curFileExt;
 
 	//Update files if the folder path is confirmed
 	if(form!=null)
@@ -26,8 +28,11 @@
 		if(!form.err)
 		{
 			fileNames = form.fileNames;
+			fileExts = form.fileExts;
 			lookupFolder = form.lookupFolder;
-			curFileName = fileNames[0];
+
+			setCurrentFile(0);
+
 			inputDisabled = true;
 			folderErrorMessage = "";
 		}
@@ -36,19 +41,36 @@
 			folderErrorMessage = "The folder you selected does not exist!"
 		}
 	}
+
+	function previousFile() 
+	{
+		if(i>0)
+		{
+			i--;
+		}
+
+		setCurrentFile(i);
+	}	
 	
-	function nextFile() {
+	function nextFile() 
+	{
 		if(i < fileNames.length-1)
 		{
 			i++;
 		}
 
-		curFileName = fileNames[i];
+		setCurrentFile(i);
 	}
 
 	function enableInput()
 	{
 		inputDisabled = false;
+	}
+
+	function setCurrentFile(i)
+	{
+		curFileName = fileNames[i];
+		curFileExt = fileExts[i];
 	}
 </script>
 
@@ -66,8 +88,9 @@
 
 	<form>
 		<p><b>File name:</b> {curFileName}</p>
-		<p><b>File content</b> {fileContent}</p>
-		<p><b>Last modified:</b> {lastmod}</p>
+		<p><b>File type:</b> {curFileExt}</p>
+		<p><b>File content</b> {curFileContent}</p>
+		<button on:click="{previousFile}">Previous</button>
 		<button on:click="{nextFile}">Next</button>
 	</form>
 </body>
