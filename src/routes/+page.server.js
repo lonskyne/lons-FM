@@ -25,12 +25,18 @@ export const actions = {
 		for(let i=0; i<fileNames.length; i++)
 		{
 			fileExts[i] = path.extname(fileNames[i]);
-			fileContents[i] = await fs.promises.readFile(lookupFolder+'/'+fileNames[i], "utf-8");
-			console.log(fileContents[i]);
+			var fsStat = await fs.promises.stat(lookupFolder+'/'+fileNames[i]);
+			if(fsStat.isDirectory())
+			{
+				fileExts[i] = "folder"
+				fileContents[i] = "";
+			}
+			else
+			{
+				fileContents[i] = await fs.promises.readFile(lookupFolder+'/'+fileNames[i], "utf-8");
+			}
 		}
 
-		//var content = await fs.promises.readFile(lookupFolder+'/'+fileNames[0],"utf-8");
-		//console.log(content);
 		return { lookupFolder, fileNames, fileExts, fileContents, err};
 	}
 }
