@@ -2,14 +2,16 @@ import fs from 'fs'
 import path from 'path'
 import { isText } from 'istextorbinary'
 
+var lookupFolder;
+var fileNames;
+var fileExts = new Array;
+var fileContents = new Array;
+
 export const actions = {
 
 	confirmFolder: async ({ request } ) => {
 		const requestData= await request.formData();
-		const lookupFolder = requestData.get("lookupFolder");
-		var fileNames;
-		var fileExts = new Array;
-		var fileContents = new Array;
+		lookupFolder = requestData.get("lookupFolder");
 
 		var err = false;
 
@@ -50,6 +52,29 @@ export const actions = {
 		}
 
 		return { lookupFolder, fileNames, fileExts, fileContents, err};
+	},
+
+	deleteFiles: async ( {request} ) => {
+		const requestData = await request.formData();
+		const deletion = requestData.get("deletion").split(",");
+		
+		for(let i=0; i<deletion.length; i++)
+		{
+			if(deletion[i].length>0)
+			{
+				fs.unlink(lookupFolder+'/'+deletion[i], (err => {
+					if(err)
+						console.log(err);
+				}));
+			}
+		}
+
+		fileNames = new Array;
+		lookupFolder = undefined;
+		fileExts = new Array;
+		fileContents = new Array;
+
+		return {lookupFolder, fileNames, fileExts, fileContents}
 	}
 }
 

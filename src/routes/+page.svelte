@@ -3,10 +3,11 @@
 </nav>
 
 <script>
-	export let data;
 	export let form;
 	
 	let folderErrorMessage = "";
+	let deletion
+	var fileNameColor = "black";
 
 	let i = 0;
 	let inputDisabled = true;
@@ -31,6 +32,7 @@
 			fileExts = form.fileExts;
 			fileContents = form.fileContents;
 			lookupFolder = form.lookupFolder;
+			deletion = new Array();
 
 			setCurrentFile(0);
 
@@ -68,31 +70,56 @@
 		inputDisabled = false;
 	}
 
+	function markDeletion()
+	{
+		deletion[i] = fileNames[i];
+
+		fileNameColor = "red";
+	}
+
 	function setCurrentFile(i)
 	{
 		curFileName = fileNames[i];
 		curFileExt = fileExts[i];
 		curFileContent = fileContents[i];
+		if(deletion[i]!=undefined)
+		{
+			fileNameColor = "red";
+		}
+		else
+		{
+			fileNameColor = "black";
+		}
 	}
 </script>
 
 <body>
 	<span id="folderError" style="color:red">{folderErrorMessage}</span>
+	
 	<form method="POST" action="?/confirmFolder">
 		<b>Lookup folder:</b>
 		<input disabled={inputDisabled} type="text" name="lookupFolder" value={lookupFolder}/><br>
 
 		<button disabled="{inputDisabled}">Confirm</button>
 	</form>
+		
 		<button disabled="{!inputDisabled}" on:click="{enableInput}">Edit</button>
 	
 	<hr>
 
 	<form>
 		<button on:click="{previousFile}">Previous</button>
-		<button on:click="{nextFile}">Next</button>
-		<p><b>File name:</b> {curFileName}</p>
-		<p><b>File type:</b> {curFileExt}</p>
-		<p><b>File content</b> {curFileContent}</p>
+		<button on:click="{nextFile}">Next</button><br>
+		
+		<button on:click="{markDeletion}">Mark for deletion</button><br>
+
+		<b>File name:</b> <input style="color:{fileNameColor}" readOnly=true value={curFileName} name="curFileName"><br>
+		<b>File type:</b> <input readOnly=true value={curFileExt}><br>
+		<b>File content</b> <input readOnly=true value={curFileContent}>
+	</form>
+
+	<form method="POST" action="?/deleteFiles">
+		<button>Confirm deletion</button><br>
+		<input style="color:red" value={deletion} name="deletion">
 	</form>
 </body>
