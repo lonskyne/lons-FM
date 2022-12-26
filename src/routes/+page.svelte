@@ -82,17 +82,17 @@
 		<b>Lookup folder:</b>
 		<input disabled={inputDisabled} type="text" name="lookupFolder" value={lookupFolder}/><br>
 
-		<button>Confirm</button>
+		<button disabled="{inputDisabled}">Confirm</button>
 	</form>
-		<button on:click="{enableInput}">Edit</button>
+		<button disabled="{!inputDisabled}" on:click="{enableInput}">Edit</button>
 	
 	<hr>
 
 	<form>
+		<button on:click="{previousFile}">Previous</button>
+		<button on:click="{nextFile}">Next</button>
 		<p><b>File name:</b> {curFileName}</p>
 		<p><b>File type:</b> {curFileExt}</p>
 		<p><b>File content</b> {curFileContent}</p>
-		<button on:click="{previousFile}">Previous</button>
-		<button on:click="{nextFile}">Next</button>
 	</form>
 </body>
