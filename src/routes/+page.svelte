@@ -29,6 +29,7 @@
 		{
 			fileNames = form.fileNames;
 			fileExts = form.fileExts;
+			fileContents = form.fileContents;
 			lookupFolder = form.lookupFolder;
 
 			setCurrentFile(0);
@@ -71,6 +72,7 @@
 	{
 		curFileName = fileNames[i];
 		curFileExt = fileExts[i];
+		curFileContent = fileContents[i];
 	}
 </script>
 

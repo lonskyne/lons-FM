@@ -25,9 +25,12 @@ export const actions = {
 		for(let i=0; i<fileNames.length; i++)
 		{
 			fileExts[i] = path.extname(fileNames[i]);
-			//fileContents[i] = await fs.promises.readFile(lookupFolder+'/'+fileNames[i]);
+			fileContents[i] = await fs.promises.readFile(lookupFolder+'/'+fileNames[i], "utf-8");
+			console.log(fileContents[i]);
 		}
 
+		//var content = await fs.promises.readFile(lookupFolder+'/'+fileNames[0],"utf-8");
+		//console.log(content);
 		return { lookupFolder, fileNames, fileExts, fileContents, err};
 	}
 }
