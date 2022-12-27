@@ -9,7 +9,8 @@ var fileContents = new Array;
 
 export const actions = {
 
-	confirmFolder: async ({ request } ) => {
+	confirmFolder: async ({ request } ) => {	
+
 		const requestData= await request.formData();
 		lookupFolder = requestData.get("lookupFolder");
 
@@ -28,6 +29,15 @@ export const actions = {
 		{
 			for(let i=0; i<fileNames.length; i++)
 			{
+				//Deleting pictures of previous folder
+				const loadedPictures = await fs.promises.readdir("./static/images");
+				for(let j=0; i<loadedPictures.length; i++)
+				{
+					fs.unlink("./static/images/" + loadedPictures[i], (err => {
+						if(err) throw err;
+					}));
+				}
+
 				fileExts[i] = path.extname(fileNames[i]);
 				var fsStat = await fs.promises.stat(lookupFolder+'/'+fileNames[i]);
 				if(fsStat.isDirectory())
@@ -44,9 +54,19 @@ export const actions = {
 					}
 					else
 					{
-						fileContents[i] = "Cannot read binary files";
-					}
+						if(fileExts[i]==".png" || fileExts[i]==".jpg")
+						{
+							fs.copyFile(lookupFolder+'/'+fileNames[i], './static/images/' + fileNames[i], (err) => {
+								if(err) throw err;
+							});
 
+							fileContents[i]="./images/"+fileNames[i];
+						}
+						else
+						{
+							fileContents[i] = "Cannot read binary files";
+						}
+					}
 				}
 			}
 		}

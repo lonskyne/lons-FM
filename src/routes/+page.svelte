@@ -116,6 +116,7 @@
 		<b>File name:</b> <input style="color:{fileNameColor}" readOnly=true value={curFileName} name="curFileName"><br>
 		<b>File type:</b> <input readOnly=true value={curFileExt}><br>
 		<b>File content</b> <input readOnly=true value={curFileContent}>
+		<br><img src="{curFileContent}" />
 	</form>
 
 	<form method="POST" action="?/deleteFiles">
