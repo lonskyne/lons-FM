@@ -6,8 +6,10 @@
 	export let form;
 	
 	let folderErrorMessage = "";
-	let deletion
+	let deletion;
+	let sortFolder;
 	var fileNameColor = "black";
+	var sortFolderName = "Folder1"
 
 	let i = 0;
 	let inputDisabled = true;
@@ -33,6 +35,7 @@
 			fileContents = form.fileContents;
 			lookupFolder = form.lookupFolder;
 			deletion = new Array();
+			sortFolder = new Array();
 
 			setCurrentFile(0);
 
@@ -77,11 +80,30 @@
 		fileNameColor = "red";
 	}
 
+	function unmarkDeletion()
+	{
+		deletion[i] = "";
+
+		fileNameColor = "black";
+	}
+
+	function markSortFolder()
+	{
+		sortFolder[i] = fileNames[i];
+
+		fileNameColor = "green";
+	}
+
 	function setCurrentFile(i)
 	{
 		curFileName = fileNames[i];
 		curFileExt = fileExts[i];
 		curFileContent = fileContents[i];
+
+		if(sortFolder[i]!= undefined)
+		{
+			fileNameColor = "green";
+		}
 		if(deletion[i]!=undefined)
 		{
 			fileNameColor = "red";
@@ -111,16 +133,24 @@
 		<button on:click="{previousFile}">Previous</button>
 		<button on:click="{nextFile}">Next</button><br>
 		
-		<button on:click="{markDeletion}">Mark for deletion</button><br>
+		<button on:click="{markDeletion}">Mark for deletion</button>
+		<button on:click="{unmarkDeletion}">Unmark for deletion</button><br>
+		<button on:click="{markSortFolder}">Add to folder:</button><input value="{sortFolderName}" /><br><br>
 
 		<b>File name:</b> <input style="color:{fileNameColor}" readOnly=true value={curFileName} name="curFileName"><br>
 		<b>File type:</b> <input readOnly=true value={curFileExt}><br>
 		<b>File content</b> <input readOnly=true value={curFileContent}>
-		<br><img src="{curFileContent}" />
+		<br><img src="{curFileContent}" alt="" />
 	</form>
 
 	<form method="POST" action="?/deleteFiles">
 		<button>Confirm deletion</button><br>
-		<input style="color:red" value={deletion} name="deletion">
+		<input style="color:red" value={deletion} name="deletion" readOnly=true />
+	</form>
+
+	<form method="POST" action="?/sortFiles">
+		<button>Confirm sorting</button><br>
+		<input readOnly=true value="{sortFolderName}:"/>
+		<input style="color:green" value={sortFolder} name="sortFolder" readOnly=true />
 	</form>
 </body>

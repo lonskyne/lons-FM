@@ -95,6 +95,11 @@ export const actions = {
 		fileContents = new Array;
 
 		return {lookupFolder, fileNames, fileExts, fileContents}
+	},
+
+	sortFiles: async ( {request} ) => {
+		const requestData = await request.formData();
+		const sortFolder = requestData.get("sortFolder").split(",");
 	}
 }
 
